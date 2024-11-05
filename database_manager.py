@@ -44,5 +44,5 @@ def load_database(name: str, url: str, hash: Optional[str] = None) -> None:
         rmtree(directory_name)
     with ZipFile(archive_name, "r") as zipfile:
         logger.debug(f"Unpacking dataset {name} into {_DATASETS_DIR}...")
-        zipfile.extractall(_DATASETS_DIR)
+        zipfile.extractall(directory_name)
     logger.info(f"Dataset {name} available in {directory_name}!")
