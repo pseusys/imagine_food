@@ -1,7 +1,12 @@
-datasets
+runs
 logs
+
+datasets/*/
+datasets/*.zip
 
 __pycache__
 .vscode
 
 poetry.lock
+
+*.pt
