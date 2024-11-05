@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "imagine-food"
+version = "0.0.1"
+description = "Course COMP4471 final project"
+authors = [
+    "Aleksandr Sergeev <asergeev@connect.ust.hk>",
+    "...",
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+jupyter = "^1.1.1"
+tqdm = "^4.66.6"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+
