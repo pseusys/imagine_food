@@ -2,16 +2,22 @@
 
 > COMP4471 final project
 
+## Requirements
+
+### Running notebooks
+
+- [`python3`](https://www.python.org/) version 3.8+
+- [`poetry`](https://python-poetry.org/) version 1.5+
+
+### Building report
+
+- [`pdflatex`](https://tug.org/applications/pdftex/index.html) version 3.141592653-2.6-1.40.22+
+
 ## Install
 
 This project is built with [poetry](https://python-poetry.org/).
 It can be installed with this command: `python3 -m pip install poetry`.
 In order to install dependencies and create a virtual environment, just run `poetry install`.
-
-### Requirements
-
-- [`python3`](https://www.python.org/) version 3.8+
-- [`poetry`](https://python-poetry.org/) version 1.5+
 
 ### Run in VSCode
 
@@ -35,7 +41,3 @@ That version was again modified from the the old CVPR/ICCV template files contri
 
 The report is automatically built and released each and every time a tag is pushed to the GitHub repo.
 It can also be built locally with the following command: `pdflatex -halt-on-error -output-directory=report report/report.tex`.
-
-### Requirements
-
-- `pdflatex`
