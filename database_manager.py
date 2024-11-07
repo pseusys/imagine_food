@@ -46,3 +46,11 @@ def load_database(name: str, url: str, hash: Optional[str] = None) -> None:
         logger.debug(f"Unpacking dataset {name} into {_DATASETS_DIR}...")
         zipfile.extractall(directory_name)
     logger.info(f"Dataset {name} available in {directory_name}!")
+
+
+def verify_database(name: str) -> None:
+    directory_name = _DATASETS_DIR / name
+    if directory_name.is_dir():
+        logger.info(f"Dataset {name} found in {directory_name}!")
+    else:
+        raise RuntimeError(f"Dataset {name} does not exist!")
