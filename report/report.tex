@@ -43,7 +43,7 @@
     Third Author\\
     {\tt\small thirdauthor@i2.org}
     Institution2\\
-    First line of institution2 address\\
+    First line of institution2 address
 }
 \maketitle
 
@@ -87,8 +87,8 @@ Our first idea about approaching this problem was using one of the simple well-k
 However, since they only attribute one label to one image, we later decided using object detection model instead (also well-known YOLO in particular).
 That would allow us training our model on simpler datasets, containing only basic products instead of including all different meal combinations.
 For instance, consider a meal consisting of a bowl of rice and a pork chop.
-In case of using image classification models, either we would have to include "bowl of rice with pork chop" into our dataset, or that image will be classified not precisely (probably as rice if there is more rice in the image).
-On the contrary, if we use object detection model, we would be able to detect "rice" and "pork chop" separately and then proceed combining detection results.
+In case of using image classification models, either we would have to include \"bowl of rice with pork chop\" into our dataset, or that image will be classified not precisely (probably as rice if there is more rice in the image).
+On the contrary, if we use object detection model, we would be able to detect \"rice\" and \"pork chop\" separately and then proceed combining detection results.
 
 We decided to use transfer learning technique (advised by ultralitics team themselves~\cite{ultralytics2024transferlearning}) for re-using already trained YOLO model weights and not train it from scratch.
 That technique includes downloading model weights after training on some general-purpose dataset (COCO~\cite{lin2015microsoftcococommonobjects} in this case), freezing several initial layers of the model (we assume that they are responsible for generic image features, similar for every domain), so-called backbone, and training the rest, so-called head.
