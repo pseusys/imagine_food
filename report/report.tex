@@ -94,11 +94,31 @@ That technique includes downloading model weights after training on some general
 After the model is trained, we try to further boost accuracy using fine tuning approach (again, also described by ultralytics~\cite{ultralytics2024finetuning}).
 In our case we unfreeze all the model layers, decrease the learning rate and train the model again.
 
-The model weights are saved in \texttt{.pt} file, that can be evaluated by any language and library supporting \texttt{Torch}~\cite{torchlibrary} library.
+For allergen detection Allergen30~\cite{mishra2022allergen30} dataset was used and for calories computation FooDD~\cite{yvk7-qk38-20} dataset.
+After training, the model weights are saved in \texttt{.pt} file, that can be evaluated by any language and library supporting \texttt{Torch}~\cite{torchlibrary} library.
 
 \subsection{Intermediate Results}
 
-TODO!!
+For now only results for allergen detection was performed (because FooDD dataset is bigger and we ran out of free Colab GPU time).
+For the second submission result evaluation will be added as well as training graphs and training details.
+The training results are for now provided in form of a table \ref{results-table}.
+
+\begin{table}[!h]
+    \begin{center}
+        \caption{Model training results}
+        \label{results-table}
+        \begin{tabular}{ |l||c| }
+            \hline
+            Precision & 0.707 \\
+            Recall & 0.602 \\
+            Accuracy at 50\% & 0.662 \\
+            Accuracy between 50\% and 95\% & 0.472 \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+JuPyter notebook that was used for training as well as the trained model will be submitted alongside with this report.
 
 %-------------------------------------------------------------------------
 
