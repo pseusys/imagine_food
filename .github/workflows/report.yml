@@ -1,0 +1,35 @@
+name: REPORT
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'report/**'
+      - '.github/workflows/report.yml'
+
+defaults:
+  run:
+    working-directory: ./report
+
+jobs:
+  compile-report:
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout 🛎️
+      uses: actions/checkout@v3
+
+    - name: Compile 📄
+      uses: xu-cheng/latex-action@v2
+      with:
+        root_file: ./report.tex
+        working_directory: ./report/
+
+    - name: Update release 📩
+      uses: johnwbyrd/update-release@v1.0.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        release: Report release
+        files: ./report/report.pdf

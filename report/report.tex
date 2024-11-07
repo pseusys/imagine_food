@@ -1,0 +1,115 @@
+% CVPR 2022 Paper Template
+% based on the CVPR template provided by Ming-Ming Cheng (https://github.com/MCG-NKU/CVPR_Template)
+% modified and extended by Stefan Roth (stefan.roth@NOSPAMtu-darmstadt.de)
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+%%%%%%%%% PAPER TYPE  - PLEASE UPDATE FOR FINAL VERSION
+\usepackage[review]{cvprstyle}          % To produce the REVIEW version
+%\usepackage{cvprstyle}                 % To produce the CAMERA-READY version
+%\usepackage[pagenumbers]{cvprstyle}    % To force page numbers, e.g. for an arXiv version
+
+% Include other packages here, before hyperref.
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+
+
+% It is strongly recommended to use hyperref, especially for the review version.
+% hyperref with option pagebackref eases the reviewers' job.
+% Please disable hyperref *only* if you encounter grave issues, e.g. with the
+% file validation for the camera-ready version.
+%
+% If you comment hyperref and then uncomment it, you should delete
+% ReviewTempalte.aux before re-running LaTeX.
+% (Or just hit 'q' on the first LaTeX run, let it finish, and you
+%  should be clear).
+\usepackage[pagebackref,breaklinks,colorlinks]{hyperref}
+
+
+% Support for easy cross-referencing
+\usepackage[capitalize]{cleveref}
+\crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{Tab.}{Tabs.}
+
+
+%%%%%%%%% PAPER ID  - PLEASE UPDATE
+\def\cvprPaperID{*****} % *** Enter the CVPR Paper ID here
+\def\confName{CVPR}
+\def\confYear{2022}
+
+
+\begin{document}
+
+%%%%%%%%% TITLE - PLEASE UPDATE
+\title{\LaTeX\ Author Guidelines for \confName~Proceedings}
+
+\author{First Author\\
+Institution1\\
+Institution1 address\\
+{\tt\small firstauthor@i1.org}
+% For a paper whose authors are all at the same institution,
+% omit the following lines up until the closing ``}''.
+% Additional authors and addresses can be added with ``\and'',
+% just like the second author.
+% To save space, use either the email address or home page, not both
+\and
+Second Author\\
+Institution2\\
+First line of institution2 address\\
+{\tt\small secondauthor@i2.org}
+}
+\maketitle
+
+%%%%%%%%% ABSTRACT
+\begin{abstract}
+        This project is the application of YOLOv11(You Only Look Once) for detect and estimate calories and allergens in food item images. In order to address the growing demand of the health diet and allergens check, we use the object identification features of YOLO to recognize foods in pictures.  To deliver precise calorie counts and allergen check, the model is trained on a dataset that contains images, nutritional data, and allergen information. The findings demonstrate the use of transfer learning and deep learning, providing a powerful tool for health-conscious customers and those dealing with food allergies. This study intends to raise public knowledge of nutritional information and enable users to make educated dietary decisions.
+\end{abstract}
+
+%%%%%%%%% BODY TEXT
+\section{Introduction}
+\label{sec:intro}
+
+The overweight percentage keep increasing nowaday and more and more people 
+We want to use computer vision to identify the foods whether to check their calories or allergies. It is quite related to our daily life especially for the allergy people and for those people who want to keep fit. 
+We will read some books about nutrition and some materials from the WHO since they are highly related to our topic, and we will grab some data from those readings. We need those data for training our model and for calculating calories. We may use YOLO (You only look once: an open source neural network framework), AlexNet(a convolutional neural network (CNN) architecture) or XCeption(a convolutional neural network that is 71 layers deep) for food detection and identification (we will found out which one is most suitable for our project later). We want to adapt the model to recognize multiple food items in a single image and estimate their weights, facilitating accurate calorie calculations. This approach will contribute significantly to our understanding of food consumption and nutritional information. Our final goal is to input an image with foods (there can be many foods inside a container), the model will list out all the foods inside the image and state the calories of each food as well as if the food causes an allergy. We aim to develop a model that accurately identifies a wide variety of foods in images and estimates their weights with precision, enabling the calculation of their correct calorie content.
+
+\subsection{Problem Statement}
+
+TODO!!
+
+WRITE THAT WE'RE NOT SURE IF IT'S ENOUGH?
+
+\subsection{Technical approach}
+
+Our first idea about approaching this problem was using one of the simple well-known image classification models (ResNet~\cite{he2015deepresiduallearningimage} or even more accurate XCeption~\cite{chollet2017xceptiondeeplearningdepthwise}).
+However, since they only attribute one label to one image, we later decided using object detection model instead (also well-known YOLO~\cite{redmon2016lookonceunifiedrealtime} in particular).
+That would allow us training our model on simpler datasets, containing only basic products instead of including all different meal combinations.
+For instance, consider a meal consisting of a bowl of rice and a pork chop.
+In case of using image classification models, either we would have to include "bowl of rice with pork chop" into our dataset, or that image will be classified not precisely (probably as rice if there is more rice in the image).
+On the contrary, if we use object detection model, we would be able to detect "rice" and "pork chop" separately and then proceed combining detection results.
+
+We decided to use transfer learning technique (advised by ultralitics team themselves~\cite{ultralytics2024transferlearning}) for re-using already trained YOLO model weights and not train it from scratch.
+That technique includes downloading model weights after training on some general-purpose dataset (COCO~\cite{lin2015microsoftcococommonobjects} in this case), freezing several initial layers of the model (we assume that they are responsible for generic image features, similar for every domain), so-called backbone, and training the rest, so-called head.
+After the model is trained, we try to further boost accuracy using fine tuning approach (again, also described by ultralytics~\cite{ultralytics2024finetuning}).
+In our case we unfreeze all the model layers, decrease the learning rate and train the model again.
+
+The model weights are saved in \texttt{.pt} file, that can be evaluated by any language and library supporting \texttt{Torch}~\cite{torchlibrary} library.
+
+\subsection{Intermediate Results}
+
+
+
+%-------------------------------------------------------------------------
+
+%%%%%%%%% REFERENCES
+{
+    \small
+    \bibliographystyle{bibliostyle}
+    \bibliography{bibliography}
+}
+
+\end{document}

@@ -7,7 +7,7 @@ from zipfile import ZipFile
 
 from tqdm import tqdm
 
-from logging_manager import create_logger
+from .logs import create_logger
 
 _DATASETS_DIR = Path(__file__).parent / "datasets"
 
@@ -24,7 +24,7 @@ class DownloadProgressBar(tqdm):
         self.update(b * bsize - self.n)
 
 
-def load_database(name: str, url: str, hash: Optional[str] = None) -> None:
+def load_dataset(name: str, url: str, hash: Optional[str] = None) -> None:
     directory_name = _DATASETS_DIR / name
     archive_name = directory_name.with_suffix(".zip")
     if not archive_name.exists():
@@ -48,7 +48,7 @@ def load_database(name: str, url: str, hash: Optional[str] = None) -> None:
     logger.info(f"Dataset {name} available in {directory_name}!")
 
 
-def verify_database(name: str) -> None:
+def verify_dataset(name: str) -> None:
     directory_name = _DATASETS_DIR / name
     if directory_name.is_dir():
         logger.info(f"Dataset {name} found in {directory_name}!")
