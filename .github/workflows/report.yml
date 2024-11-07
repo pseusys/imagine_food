@@ -23,6 +23,9 @@ jobs:
     - name: Checkout 🛎️
       uses: actions/checkout@v3
 
+    - name: Prepare Report Source for Production
+      run: sed -i -e 's/\\usepackage\[review\]{cvpr}/\\usepackage\[pagenumbers\]{cvpr}/g' report/report.tex
+
     - name: Compile LaTeX 🔨
       uses: xu-cheng/latex-action@v2
       with:
