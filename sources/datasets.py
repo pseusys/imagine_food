@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 from .logs import create_logger
 
-_DATASETS_DIR = Path(__file__).parent / "datasets"
+_DATASETS_DIR = Path(__file__).parent.parent / "datasets"
 
 if not _DATASETS_DIR.exists():
     _DATASETS_DIR.mkdir()

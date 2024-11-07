@@ -1,7 +1,7 @@
 from logging import DEBUG, INFO, FileHandler, Formatter, Logger, StreamHandler, getLogger
 from pathlib import Path
 
-_LOGGIN_DIR = Path(__file__).parent / "logs"
+_LOGGIN_DIR = Path(__file__).parent.parent / "logs"
 
 if not _LOGGIN_DIR.exists():
     _LOGGIN_DIR.mkdir()
