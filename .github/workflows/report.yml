@@ -23,7 +23,7 @@ jobs:
         root_file: report.tex
         working_directory: report
 
-    - name: Update release 📩
+    - name: Update Release 📩
       uses: johnwbyrd/update-release@v1.0.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
