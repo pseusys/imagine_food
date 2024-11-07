@@ -10,8 +10,14 @@ on:
 
 jobs:
   compile-report:
+    name: Comile report PDF
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
+    concurrency:
+      group: REPORT-${{ github.ref }}
+      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout 🛎️
