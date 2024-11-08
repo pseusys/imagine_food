@@ -8,14 +8,14 @@ on:
       - 'report/**'
       - '.github/workflows/report.yml'
 
+concurrency:
+  group: REPORT-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   compile-report:
-    name: Comile report PDF
-    if: ${{ github.event_name == 'push' }}
+    name: Comile Report PDF
     runs-on: ubuntu-latest
-    concurrency:
-      group: REPORT-${{ github.ref }}
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
     permissions:
       contents: write
 
@@ -23,14 +23,14 @@ jobs:
     - name: Checkout 🛎️
       uses: actions/checkout@v3
 
-    - name: Prepare Report Source for Production
+    - name: Prepare Report Source for Production 🔄
       run: sed -i -e 's/\\usepackage\[review\]{cvpr}/\\usepackage\[pagenumbers\]{cvpr}/g' report/report.tex
 
+    - name: Install LaTeX Build Tools 🛠️
+      run: apt-get install --yes --no-install-recommends latexmk
+
     - name: Compile LaTeX 🔨
-      uses: xu-cheng/latex-action@v2
-      with:
-        root_file: report.tex
-        working_directory: report
+      run: latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode -output-directory=report report/report.tex
 
     - name: Update Release 📩
       uses: johnwbyrd/update-release@v1.0.0
@@ -38,3 +38,17 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         release: Report release
         files: report/report.pdf
+
+  lint-report:
+    name: Check Report Source Style
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Install LaTeX Check Tools 🔧
+        run: apt-get install --yes --no-install-recommends chktex
+
+      - name: Check LaTeX Style ✅
+        run: chktex report/bibliography.bib report/report.tex

@@ -1,3 +1,5 @@
+% chktex-file 8
+
 \documentclass[10pt,twocolumn,letterpaper]{article}
 
 
@@ -30,7 +32,7 @@
 
 
 %%%%%%%%% TITLE
-\title{\confName project\,\cvprPaperID\,report}
+\title{\confName\,project\,\cvprPaperID\,report}
 
 \author{
     Aleksandr Sergeev\\
@@ -58,8 +60,7 @@
 
 
 %%%%%%%%% BODY TEXT
-\section{Introduction}
-\label{sec:intro}
+\section{Introduction}\label{sec:intro}
 
 The overweight percentage keeps increasing in contemporary society~\cite{nihoverweightobesity} therefore more and more people care about health issues.
 Unhealthy living styles are becoming increasingly common, for example, increasing the frequency of eating fast food due to the fast pace of life~\cite{worldpopulationreviewfastfood}, lack of sport activity.
@@ -100,26 +101,25 @@ That technique includes downloading model weights after training on some general
 After the model is trained, we try to further boost accuracy using fine tuning approach (again, also described by ultralytics~\cite{ultralytics2024finetuning}).
 In our case we unfreeze all the model layers, decrease the learning rate and train the model again.
 
-For allergen detection Allergen30~\cite{mishra2022allergen30} dataset was used and for calories computation FooDD~\cite{yvk7-qk38-20} dataset.
+For allergen detection Allergen30~\cite{mishra2022allergen30} dataset was used and for calories computation FooDD~\cite{yvk7qk3820} dataset.
 After training, the model weights are saved in \texttt{.pt} file, that can be evaluated by any language and library supporting \texttt{Torch}~\cite{torchlibrary} library.
 
 \subsection{Intermediate Results}
 
 For now only results for allergen detection was performed (because FooDD dataset is bigger and we ran out of free Colab GPU time).
 For the second submission result evaluation will be added as well as training graphs and training details.
-The training results are for now provided in form of a table \ref{results-table}.
+The training results are for now provided in form of a table~\ref{results-table}.
 
 \begin{table}[!h]
     \begin{center}
-        \caption{Model training results}
-        \label{results-table}
-        \begin{tabular}{ |l||c| }
-            \hline
+        \caption{Model training results}\label{results-table}
+        \begin{tabular}{ l c }
+            \toprule
             Precision & 0.707 \\
             Recall & 0.602 \\
             Accuracy at 50\% & 0.662 \\
             Accuracy between 50\% and 95\% & 0.472 \\
-            \hline
+            \bottomrule
         \end{tabular}
     \end{center}
 \end{table}

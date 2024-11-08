@@ -12,6 +12,7 @@
 ### Building report
 
 - [`latexmk`](https://mg.readthedocs.io/latexmk.html) version 4.76+
+- [`chktex`](https://www.nongnu.org/chktex/) version 1.7+
 
 ## Install
 
@@ -52,4 +53,10 @@ It can also be built locally with the following command:
 
 ```shell
 latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode -output-directory=report report/report.tex
+```
+
+LaTeX code style can be checked with this command:
+
+```shell
+chktex report/bibliography.bib report/report.tex
 ```
