@@ -76,7 +76,15 @@ This introduction sets the stage for a deeper exploration of the methodology, re
 
 \subsection{Problem Statement}
 
-One problem we are considering is whether the design and workload of the project is enough for the group project. This project is the application of YOLOv11(You Only Look Once) for detect and estimate calories and allergens in food item images. In order to achieve higher efficiency and accuracy, we apply the transfer learning technique. Instead of training the model from scratch, we download YOLO model weights which are trained on some general-purpose dataset (COCO~\cite{lin2015microsoftcococommonobjects} for this case), freezing several initial layers of the model (the so-called backbone) and training the rest (the so-called head). After training the model, we unfreeze all the model layers and try to further increase accuracy using a fine-tuning approach (This time we use the dataset Allergen30). We used to consider building a model by ourselves based on the knowledge we learned in class. However, in that case, the accuracy would be much lower than using the existing model. We are in a dilemma of balancing original creativity and accuracy. It would be very appreciated if you could give us some advice on our current project design or guide us with some new ideas. 
+One problem we are considering is whether the design and workload of the project is enough for the group project.
+This project is the application of YOLOv11 for detect and estimate calories and allergens in food item images.
+In order to achieve higher efficiency and accuracy, we apply the transfer learning technique.
+Instead of training the model from scratch, we download YOLO model weights which are trained on some general-purpose dataset (COCO~\cite{lin2015microsoftcococommonobjects} for this case), freezing several initial layers of the model (the so-called backbone) and training the rest (the so-called head).
+After training the model, we unfreeze all the model layers and try to further increase accuracy using a fine-tuning approach (this time we use the dataset Allergen30).
+We used to consider building a model by ourselves based on the knowledge we learned in class.
+However, in that case, the accuracy would be much lower than using the existing model.
+We are in a dilemma of balancing original creativity and accuracy.
+It would be very appreciated if you could give us some advice on our current project design or guide us with some new ideas. 
 
 \subsection{Technical approach}
 
@@ -88,7 +96,7 @@ In case of using image classification models, either we would have to include ``
 On the contrary, if we use object detection model, we would be able to detect ``rice'' and ``pork chop'' separately and then proceed combining detection results.
 
 We decided to use transfer learning technique (advised by ultralitics team themselves~\cite{ultralytics2024transferlearning}) for re-using already trained YOLO model weights and not train it from scratch.
-That technique includes downloading model weights after training on some general-purpose dataset (COCO~\cite{lin2015microsoftcococommonobjects} in this case), freezing several initial layers of the model (we assume that they are responsible for generic image features, similar for every domain), so-called backbone, and training the rest, so-called head.
+That technique includes downloading model weights after training on some general-purpose dataset (COCO in this case), freezing several initial layers of the model (we assume that they are responsible for generic image features, similar for every domain), so-called backbone, and training the rest, so-called head.
 After the model is trained, we try to further boost accuracy using fine tuning approach (again, also described by ultralytics~\cite{ultralytics2024finetuning}).
 In our case we unfreeze all the model layers, decrease the learning rate and train the model again.
 
