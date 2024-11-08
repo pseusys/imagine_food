@@ -26,11 +26,11 @@ jobs:
     - name: Prepare Report Source for Production 🔄
       run: sed -i -e 's/\\usepackage\[review\]{cvpr}/\\usepackage\[pagenumbers\]{cvpr}/g' report/report.tex
 
-    - name: Install LaTeX Build Tools 🛠️
-      run: sudo apt-get install --yes --no-install-recommends biber biblatex latexmk texliveonfly xindy
-
     - name: Compile LaTeX 🔨
-      run: latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode -output-directory=report report/report.tex
+      uses: xu-cheng/latex-action@v2
+      with:
+        root_file: report.tex
+        working_directory: report
 
     - name: Update Release 📩
       uses: johnwbyrd/update-release@v1.0.0
