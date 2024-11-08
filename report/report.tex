@@ -76,9 +76,7 @@ This introduction sets the stage for a deeper exploration of the methodology, re
 
 \subsection{Problem Statement}
 
-TODO!!
-
-WRITE THAT WE'RE NOT SURE IF IT'S ENOUGH?
+One problem we are considering is whether the design and workload of the project is enough for the group project. This project is the application of YOLOv11(You Only Look Once) for detect and estimate calories and allergens in food item images. In order to achieve higher efficiency and accuracy, we apply the transfer learning technique. Instead of training the model from scratch, we download YOLO model weights which are trained on some general-purpose dataset (COCO~\cite{lin2015microsoftcococommonobjects} for this case), freezing several initial layers of the model (the so-called backbone) and training the rest (the so-called head). After training the model, we unfreeze all the model layers and try to further increase accuracy using a fine-tuning approach (This time we use the dataset Allergen30). We used to consider building a model by ourselves based on the knowledge we learned in class. However, in that case, the accuracy would be much lower than using the existing model. We are in a dilemma of balancing original creativity and accuracy. It would be very appreciated if you could give us some advice on our current project design or guide us with some new ideas. 
 
 \subsection{Technical approach}
 
