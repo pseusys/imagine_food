@@ -27,7 +27,7 @@ jobs:
       run: sed -i -e 's/\\usepackage\[review\]{cvpr}/\\usepackage\[pagenumbers\]{cvpr}/g' report/report.tex
 
     - name: Install LaTeX Build Tools 🛠️
-      run: sudo apt-get install --yes --no-install-recommends latexmk
+      run: sudo apt-get install --yes latexmk
 
     - name: Compile LaTeX 🔨
       run: latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode -output-directory=report report/report.tex
