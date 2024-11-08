@@ -11,13 +11,21 @@
 
 ### Building report
 
-- [`pdflatex`](https://tug.org/applications/pdftex/index.html) version 3.141592653-2.6-1.40.22+
+- [`latexmk`](https://mg.readthedocs.io/latexmk.html) version 4.76+
 
 ## Install
 
-This project is built with [poetry](https://python-poetry.org/).
-It can be installed with this command: `python3 -m pip install poetry`.
-In order to install dependencies and create a virtual environment, just run `poetry install`.
+This project is built with poetry and can be installed with this command:
+
+```shell
+python3 -m pip install poetry
+```
+
+In order to install dependencies and create a virtual environment, just run:
+
+```shell
+poetry install
+```
 
 ### Run in VSCode
 
@@ -40,4 +48,8 @@ This template is modified from the template by [Ming-Ming Cheng](mailto:cmm_spam
 That version was again modified from the the old CVPR/ICCV template files contributed by [Paolo Ienne](mailto:Paolo.Ienne@di.epfl.ch) and [someone else](mailto:awf@acm.org).
 
 The report is automatically built and released each and every time a tag is pushed to the GitHub repo.
-It can also be built locally with the following command: `pdflatex -halt-on-error -output-directory=report report/report.tex`.
+It can also be built locally with the following command:
+
+```shell
+latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode -output-directory=report report/report.tex
+```

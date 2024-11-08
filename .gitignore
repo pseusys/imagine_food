@@ -1,6 +1,9 @@
 runs
 logs
 
+report/report.*
+!report/report.tex
+
 datasets/*/
 datasets/*.zip
 
@@ -10,7 +13,3 @@ __pycache__
 poetry.lock
 
 *.pt
-*.aux
-*.out
-*.log
-*.pdf
