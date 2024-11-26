@@ -71,7 +71,7 @@ const App: FC = () => {
         }
     };
 
-    const showTip = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const showTip = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         alert(`Available classes:\n    ${labels!.join("\n    ")}!`);
     }
@@ -98,8 +98,8 @@ const App: FC = () => {
             </label>
             <p className="error" hidden={errorMessage == null}>{errorMessage}</p>
             <div className="bottom-box">
-                <a href="#" onClick={showTip}>Hint!</a>
-                <a href={`https://www.flickr.com/photos/tags/${randomElem(labels ?? [])}/`} hidden={labels == null}>I need inspiration...</a>
+                <button onClick={showTip}>Hint!</button>
+                <a className="link-button" href={`https://www.flickr.com/photos/tags/${randomElem(labels ?? [])}/`} hidden={labels == null}>I need inspiration...</a>
             </div>
         </div>
     );
