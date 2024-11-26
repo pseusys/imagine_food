@@ -1,107 +1,108 @@
-import React, { useRef, useState } from "react";
-import { InferenceSession, Tensor } from "onnxruntime-web";
+import { FC, useEffect, useRef, useState } from "react";
+import { InferenceSession } from "onnxruntime-web";
+
+import { detect, Detection } from "./convert";
+import { fileToImage, readCaloriesFromCSV, readClassesFromYAML, threeIdxToColor, drawResult, randomElem } from "./support";
+
 import "./App.css";
-import { parseOutputs } from "./support";
 
 const IMAGE_SIZE = 416;
 const MODEL_NAME = "./model.onnx"
-const LABELS = [];
+const DATASET_PATH = "./allergen30.yaml";
+const CALORIES_PATH = "./calories.csv";
 
-const App: React.FC = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [imageUploaded, showImage] = useState<boolean | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    showImage(false);
-    const file = event.target.files?.[0];
-    if (!file) {
-      setErrorMessage("No file selected.");
-      return;
+const App: FC = () => {
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [imageUploaded, showImage] = useState<boolean | null>(null);
+    const [detected, showLegend] = useState<Detection[] | null>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    let [labels, setLabels] = useState<string[] | null>(null);
+    let [calories, setCalories] = useState<Map<string, string> | null>(null);
+    let [session, setSession] = useState<InferenceSession | null>(null);
+
+    useEffect((() => {
+        let load = async () => {
+            let readClasses = await readClassesFromYAML(DATASET_PATH);
+            setLabels(_ => readClasses);
+            let readCalories = await readCaloriesFromCSV(CALORIES_PATH);
+            setCalories(_ => readCalories);
+            let session = await InferenceSession.create(MODEL_NAME);
+            setSession(_ => session);
+        }
+        load();
+    }), []);
+
+    const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!labels || !calories || !session) {
+            setErrorMessage("App not ready yet!");
+            return;
+        } else if (!file) {
+            setErrorMessage("No file selected!");
+            return;
+        } else if (!file.type.startsWith("image/")) {
+            setErrorMessage("Invalid file type, please upload an image!");
+            return;
+        }
+
+        showImage(true);
+        setErrorMessage(null);
+
+        try {
+            const canvas = canvasRef.current!;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) throw new Error("Failed to get 2D context from canvas.");
+            const image = await fileToImage(file);
+
+            canvas.width = IMAGE_SIZE;
+            canvas.height = IMAGE_SIZE;
+            ctx.clearRect(0, 0, IMAGE_SIZE, IMAGE_SIZE);
+            ctx.drawImage(image, 0, 0, IMAGE_SIZE, IMAGE_SIZE);
+            const data = ctx.getImageData(0, 0, IMAGE_SIZE, IMAGE_SIZE);
+
+            const detections = await detect(data, session!, labels!, calories!, [IMAGE_SIZE, IMAGE_SIZE]);
+            detections.forEach((e, i) => drawResult(ctx, e, i));
+            showLegend(detections);
+        } catch (error) {
+            setErrorMessage("Error processing the image!");
+            console.error(error);
+        }
+    };
+
+    const showTip = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        event.preventDefault();
+        alert(`Available classes:\n    ${labels!.join("\n    ")}!`);
     }
 
-    if (!file.type.startsWith("image/")) {
-      setErrorMessage("Invalid file type. Please upload an image.");
-      return;
-    }
-
-    setErrorMessage(null);
-
-    try {
-      const image = await fileToImage(file);
-      const inputTensorData = await preprocessImage(image);
-      await runOnnxModel(inputTensorData);
-    } catch (error) {
-      setErrorMessage("Error processing the image.");
-      console.error(error);
-    }
-  };
-
-  const fileToImage = (file: File): Promise<HTMLImageElement> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const img = new Image();
-        img.src = reader.result as string;
-        img.onload = () => resolve(img);
-        img.onerror = (err) => reject(err);
-      };
-      reader.onerror = (err) => reject(err);
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const preprocessImage = async (image: HTMLImageElement) => {
-    const canvas = canvasRef.current!;
-    canvas.width = IMAGE_SIZE;
-    canvas.height = IMAGE_SIZE;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("Failed to get 2D context from canvas.");
-    ctx.clearRect(0, 0, IMAGE_SIZE, IMAGE_SIZE);
-    ctx.drawImage(image, 0, 0, IMAGE_SIZE, IMAGE_SIZE);
-    showImage(true);
-
-    const imageData = ctx.getImageData(0, 0, IMAGE_SIZE, IMAGE_SIZE);
-    const { data, width, height } = imageData;
-
-    const float32Data = new Float32Array(1 * 3 * width * height);
-    for (let i = 0; i < width * height; i++) {
-      const r = data[i * 4] / 255;
-      const g = data[i * 4 + 1] / 255;
-      const b = data[i * 4 + 2] / 255;
-
-      float32Data[i] = r;
-      float32Data[i + width * height] = g;
-      float32Data[i + 2 * width * height] = b;
-    }
-
-    return float32Data;
-  };
-
-  const runOnnxModel = async (inputTensorData: Float32Array) => {
-    const session = await InferenceSession.create(MODEL_NAME);
-
-    const inputTensor = new Tensor("float32", inputTensorData, [1, 3, IMAGE_SIZE, IMAGE_SIZE]);
-    const feeds: Record<string, Tensor> = { [session.inputNames[0]]: inputTensor };
-
-    const results = await session.run(feeds);
-    const outputs = parseOutputs(results[session.outputNames[0]]);
-    console.log("Model Output:", outputs);
-  };
-
-  return (
-    <div className="App">
-      <h1 className="title">Imagine Food!</h1>
-      <h2 className="title-help">Upload Your Image</h2>
-      <canvas ref={canvasRef} style={{ marginTop: "20px", marginBottom: "20px", display: imageUploaded ? "flex" : "none" }} />
-      <label className="upload-button">
-        <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: "none" }} />
-        <p>Upload Image!</p>
-      </label>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-    </div>
-  );
+    return (
+        <div className="App">
+            <h1 className="title">Imagine Food!</h1>
+            <h2 className="title-help">Upload Your Image</h2>
+            <div className="image-box">
+                <canvas className="image" hidden={imageUploaded !== true} ref={canvasRef} />
+                <div className="result-box" hidden={detected == null}>{
+                    detected?.map<React.ReactNode>((e, i) =>
+                        <div className="color-box" style={{color: threeIdxToColor(i)}} key={i}>
+                            <p>Object found: {e.prediction}</p>
+	                        <p className="color-offset">confidence: {e.confidence}</p>
+	                        <p className="color-offset">calories: {e.calories}</p>
+                        </div>
+                    )
+                }</div>
+            </div>
+            <label className="upload-button">
+                <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} />
+                <p>Upload Image!</p>
+            </label>
+            <p className="error" hidden={errorMessage == null}>{errorMessage}</p>
+            <div className="bottom-box">
+                <a href="#" onClick={showTip}>Hint!</a>
+                <a href={`https://www.flickr.com/photos/tags/${randomElem(labels ?? [])}/`} hidden={labels == null}>I need inspiration...</a>
+            </div>
+        </div>
+    );
 };
 
 export default App;

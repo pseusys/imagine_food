@@ -20,19 +20,19 @@ jobs:
       contents: write
 
     steps:
-    - name: Checkout 🛎️
+    - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Prepare Report Source for Production 🔄
+    - name: Prepare Report Source for Production
       run: sed -i -e 's/\\usepackage\[review\]{cvpr}/\\usepackage\[pagenumbers\]{cvpr}/g' report/report.tex
 
-    - name: Compile LaTeX 🔨
+    - name: Compile LaTeX
       uses: xu-cheng/latex-action@v2
       with:
         root_file: report.tex
         working_directory: report
 
-    - name: Update Release 📩
+    - name: Update Release
       uses: johnwbyrd/update-release@v1.0.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -44,11 +44,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install LaTeX Check Tools 🔧
+      - name: Install LaTeX Check Tools
         run: sudo apt-get install --yes --no-install-recommends chktex
 
-      - name: Check LaTeX Style ✅
+      - name: Check LaTeX Style
         run: chktex report/bibliography.bib report/report.tex

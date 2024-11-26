@@ -10,6 +10,7 @@
     "@types/node": "^22.10.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "js-yaml": "^4.1.0",
     "onnxruntime-web": "^1.20.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -21,7 +22,10 @@
     "typescript": "^5.7.2"
   },
   "scripts": {
-    "prepare": "wget https://github.com/pseusys/imagine_food/releases/download/1/model.onnx -P ./public",
+    "download-model": "wget https://github.com/pseusys/imagine_food/releases/download/1/model.onnx -O public/model.onnx",
+    "copy-dataset": "cp ../datasets/allergen30.yaml public/allergen30.yaml",
+    "download-calories": "wget https://www.kaggle.com/api/v1/datasets/download/kkhandekar/calories-in-food-items-per-100-grams -O arch.zip && unzip arch.zip -d arch && cp arch/calories.csv public/calories.csv && rm -rf arch arch.zip",
+    "prepare": "npm run download-model && npm run copy-dataset && npm run download-calories",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -44,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9"
   }
 }
