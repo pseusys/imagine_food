@@ -4,6 +4,9 @@ logs
 report/report.*
 !report/report.tex
 
+imagine-web/node_modules
+imagine-web/package-lock.json
+
 datasets/*/
 datasets/*.zip
 
