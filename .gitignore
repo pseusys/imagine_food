@@ -4,6 +4,14 @@ logs
 report/report.*
 !report/report.tex
 
+imagine-web/arch
+imagine-web/arch.zip
+imagine-web/node_modules
+imagine-web/package-lock.json
+imagine-web/public/model.onnx
+imagine-web/public/allergen30.yaml
+imagine-web/public/calories.csv
+
 datasets/*/
 datasets/*.zip
 
