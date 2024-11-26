@@ -12,9 +12,10 @@ authors = [
 [tool.poetry.dependencies]
 python = "^3.10"
 jupyter = "^1.1.1"
-ultralytics = "^8.3.28"
+ultralytics = "^8.3.37"
 torch = "^2.5.1"
 torchvision = "^0.20.1"
-tqdm = "^4.67.0"
+tqdm = "^4.67.1"
 pandas = "^2.2.3"
 opencv-python = "^4.10.0.84"
+onnx = "^1.17.0"
