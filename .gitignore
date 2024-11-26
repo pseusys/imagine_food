@@ -6,6 +6,7 @@ report/report.*
 
 imagine-web/node_modules
 imagine-web/package-lock.json
+imagine-web/public/model.*
 
 datasets/*/
 datasets/*.zip

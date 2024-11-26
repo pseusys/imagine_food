@@ -21,6 +21,7 @@
     "typescript": "^5.7.2"
   },
   "scripts": {
+    "prepare": "wget https://github.com/pseusys/imagine_food/releases/download/1/model.onnx -P ./public",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

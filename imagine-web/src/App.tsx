@@ -4,7 +4,7 @@ import "./App.css";
 import { parseOutputs } from "./support";
 
 const IMAGE_SIZE = 416;
-const MODEL_NAME = "https://github.com/pseusys/imagine_food/releases/download/1/model.onnx"
+const MODEL_NAME = "./model.onnx"
 const LABELS = [];
 
 const App: React.FC = () => {
