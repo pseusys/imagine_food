@@ -1,6 +1,7 @@
 {
   "name": "imagine-web",
   "version": "0.1.0",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^6.6.3",
