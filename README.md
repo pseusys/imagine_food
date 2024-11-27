@@ -2,6 +2,8 @@
 
 > COMP4471 final project
 
+Wisit the [live demo](pseusys.github.io/imagine_food/) to check out results!
+
 ## Requirements
 
 ### Running notebooks
