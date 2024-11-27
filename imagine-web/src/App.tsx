@@ -71,9 +71,8 @@ const App: FC = () => {
         }
     };
 
-    const showTip = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.preventDefault();
-        alert(`Available classes:\n    ${labels!.join("\n    ")}!`);
+    const showTip = (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        alert(`Available classes: ${labels!.join(" ")}!`);
     }
 
     return (

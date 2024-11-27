@@ -19,13 +19,9 @@ function prepareImageData(raw: ImageData): Float32Array {
     const float32Data = new Float32Array(1 * 3 * width * height);
 
     for (let i = 0; i < width * height; i++) {
-        const r = data[i * 4] / 255;
-        const g = data[i * 4 + 1] / 255;
-        const b = data[i * 4 + 2] / 255;
-
-        float32Data[i] = r;
-        float32Data[i + width * height] = g;
-        float32Data[i + 2 * width * height] = b;
+        float32Data[i] = data[i * 4] / 255;
+        float32Data[i + width * height] = data[i * 4 + 1] / 255;
+        float32Data[i + 2 * width * height] = data[i * 4 + 2] / 255;
     }
 
     return float32Data;
