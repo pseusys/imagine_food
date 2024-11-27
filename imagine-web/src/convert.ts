@@ -1,16 +1,18 @@
 import { InferenceSession, Tensor } from "onnxruntime-web";
 
 
+interface Box {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+}
+
 export interface Detection {
     prediction: string;
     calories: string;
     confidence: number;
-    box: {
-        x: number;
-        y: number;
-        w: number;
-        h: number;
-    };
+    box: Box;
 };
 
 
@@ -54,7 +56,7 @@ function filterTensorAxis2(tensor: Tensor, filter: (idx: number) => boolean): Te
     return new Tensor("float32", new Float32Array(filteredData), [1, shape[1], Math.floor(filteredData.length / shape[1])]);
 }
 
-function parseOutputs(detection: Tensor, confThreshold: number = 0.5): [Tensor, Tensor] {
+function parseOutputs(detection: Tensor, confThreshold: number): [Tensor, Tensor] {
     const detectionData = detection.data as Float32Array;
 
     const detectionShape = detection.dims;
@@ -87,7 +89,30 @@ function calculateMaxIndAxis2(tensor: Tensor): Tensor {
     return new Tensor("int32", new Int32Array(maxArgs), [1, 1, shape[2]]);
 }
 
-export async function detect(image: ImageData, session: InferenceSession, labels: string[], calories: Map<string, string>, size: [number, number], top: number = 3): Promise<Detection[]> {
+function calculateIntersectionOverUnion(box1: Box, box2: Box): number {
+    const x1 = Math.max(box1.x, box2.x);
+    const y1 = Math.max(box1.y, box2.y);
+    const x2 = Math.min(box1.x + box1.w, box2.x + box2.w);
+    const y2 = Math.min(box1.y + box1.h, box2.y + box2.h);
+    const intersectionArea = Math.max(0, x2 - x1) * Math.max(0, y2 - y1);
+    const unionArea = box1.w * box1.h + box2.w * box2.h - intersectionArea;
+    return intersectionArea / unionArea;
+}
+
+function nonMaxSuppress(boxes: Detection[], iou: number): Detection[] {
+    boxes.sort((p1, p2) => p2.confidence - p1.confidence);
+
+    const selected: Detection[] = [];
+    while (boxes.length > 0) {
+        const current = boxes.shift()!;
+        selected.push(current);
+        boxes = boxes.filter(p => calculateIntersectionOverUnion(current.box, p.box) < iou);
+    }
+  
+    return selected;
+}  
+
+export async function detect(image: ImageData, session: InferenceSession, labels: string[], calories: Map<string, string>, size: [number, number], confidence: number = 0.5, iou: number = 0.5, top: number = 3): Promise<Detection[]> {
     const rawData = prepareImageData(image);
     const [width, height] = size;
 
@@ -95,7 +120,7 @@ export async function detect(image: ImageData, session: InferenceSession, labels
     const feeds: Record<string, Tensor> = { [session.inputNames[0]]: inputTensor };
 
     const results = await session.run(feeds);
-    const [confs, boxes] = parseOutputs(results[session.outputNames[0]]);
+    const [confs, boxes] = parseOutputs(results[session.outputNames[0]], confidence);
     
     const objects = confs.dims[2];
     const argmaxes = calculateMaxIndAxis2(confs).data as Int32Array;
@@ -104,17 +129,17 @@ export async function detect(image: ImageData, session: InferenceSession, labels
     for (let index = 0; index < objects; index++) {
         const amx = argmaxes[index];
         const label = labels[amx];
-        const x1 = boxes.data.at(index) as number;
-        const y1 = boxes.data.at(index + objects) as number;
-        const x2 = boxes.data.at(index + objects * 2) as number;
-        const y2 = boxes.data.at(index + objects * 3) as number;
+        const w = boxes.data.at(index + objects * 2) as number;
+        const h = boxes.data.at(index + objects * 3) as number;
+        const x = (boxes.data.at(index) as number) - w / 2;
+        const y = (boxes.data.at(index + objects) as number) - h / 2;
         detections[index] = {
             prediction: label,
             calories: calories.get(label) ?? "unknown :(",
             confidence: confs.data.at(amx * objects + index),
-            box: { x: x1, y: y1, w: x2 - x1, h: y2 - y1 }
+            box: { x: x, y: y, w: w, h: h }
         };
     }
 
-    return detections.sort((p1, p2) => p2 - p1).slice(0, top);
+    return nonMaxSuppress(detections, iou).slice(0, top);
 }
