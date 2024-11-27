@@ -63,7 +63,7 @@ const App: FC = () => {
             const data = ctx.getImageData(0, 0, IMAGE_SIZE, IMAGE_SIZE);
 
             const dimensions: [number, number] = [IMAGE_SIZE, IMAGE_SIZE];
-            const detections = await detect(data, session!, labels!, calories!, dimensions);
+            const detections = await detect(data, session!, labels!, calories!, dimensions, 0.1);
             detections.forEach((e, i) => drawResult(ctx, e, i));
             showLegend(detections);
         } catch (error) {
