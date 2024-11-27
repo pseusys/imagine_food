@@ -21,3 +21,4 @@ __pycache__
 poetry.lock
 
 *.pt
+*.onnx
