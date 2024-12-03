@@ -97,46 +97,26 @@ Early systems such as MADiMa(need cita) significantly advanced the field of food
 Although these approaches represented a considerable innovation during their era, they were inherently limited by their dependence on manual feature engineering. 
 Consequently, these systems often encountered difficulties when tasked with the analysis of complex food compositions and variations in lighting conditions.
 
-
-
 One important turning point in this subject was the introduction of deep learning. 
 One of the first to use convolutional neural networks for food detection and calorie calculation was Google Research's Im2Calories system. 
 Even while this was a significant advancement over earlier techniques, the system still had trouble handling many food items in a single image and reliably determining portion sizes. 
 Building on this framework, FoodAI demonstrated the promise of integrated food understanding systems by introducing a multi-task learning approach that carried out ingredient analysis and recognition at the same time.
 
-
-
-
-
 The field has improved even more with recent advancements in object detection. Despite requiring a significant amount of computational power, Liu et al.'s use of Faster R-CNN too food detection produced encouraging results. 
 By concentrating on restaurant environments and presenting an architecture created especially for menu item detection, MenuNet adopted a specialized strategy. 
 Although these systems showed the benefits of specialized designs, accuracy frequently came at the expense of real-time performance.
 
-
-
-
-
 Existing systems in the field of allergy identification have mostly concentrated on labeled packaged foods. 
 Although AllergenDetect offered a specific method for identifying allergens, its applicability to prepared or unpackaged foods was constrained. 
 Although the majority of implementations were restricted to single-class classification models, the release of the Allergen30 dataset marked a significant milestone and offered a thorough foundation for visual allergen detection.
-
-
-
-
 
 Our method differs from earlier research in a number of significant ways. Compared to conventional CNN methods, we are able to identify food more quickly and accurately by utilizing YOLOv11's improved real-time detection capabilities. 
 In contrast to earlier systems that handled allergy identification and calorie calculation as distinct issues, we combine the two tasks into a single framework, giving users a more complete solution. 
 Better generalization is made possible with less domain-specific training data thanks to our transfer learning solution, which makes use of pre-training on the COCO dataset. 
 Furthermore, we make our method more accessible and user-friendly by addressing the practical issues of real-world food photography without the need for reference objects or controlled settings for size estimate.
 
-
-
 Together with the effectiveness of YOLOv11 and our transfer learning methodology, this combination of several food understanding tasks marks a substantial advancement in the accessibility and usefulness of nutritional analysis for daily use. 
 While addressing significant shortcomings in current systems, our work expands on the groundwork established by earlier studies.
-
-
-
-
 
 \subsection{Data}
 
