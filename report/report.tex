@@ -108,11 +108,11 @@ Although these systems showed the benefits of specialized designs, accuracy freq
 
 Existing systems in the field of allergy identification have mostly concentrated on labeled packaged foods. 
 Although AllergenDetect (need cita) offered a specific method for identifying allergens, its applicability to prepared or unpackaged foods was constrained. 
-Although the majority of implementations were restricted to single-class classification models, the release of the Allergen30 (need cita) dataset marked a significant milestone and offered a thorough foundation for visual allergen detection.
+Although the majority of implementations were restricted to single-class classification models, the release of the Allergen30~\cite{mishra2022allergen30} dataset marked a significant milestone and offered a thorough foundation for visual allergen detection.
 
-Our method differs from earlier research in a number of significant ways. Compared to conventional CNN methods, we are able to identify food more quickly and accurately by utilizing YOLOv11's (need cita) improved real-time detection capabilities. 
+Our method differs from earlier research in a number of significant ways. Compared to conventional CNN methods, we are able to identify food more quickly and accurately by utilizing YOLOv11's\cite{redmon2016lookonceunifiedrealtime} improved real-time detection capabilities. 
 In contrast to earlier systems that handled allergy identification and calorie calculation as distinct issues, we combine the two tasks into a single framework, giving users a more complete solution. 
-Better generalization is made possible with less domain-specific training data thanks to our transfer learning solution, which makes use of pre-training on the COCO (need cita) dataset. 
+Better generalization is made possible with less domain-specific training data thanks to our transfer learning solution, which makes use of pre-training on the COCO\cite{lin2015microsoftcococommonobjects} dataset. 
 Furthermore, we make our method more accessible and user-friendly by addressing the practical issues of real-world food photography without the need for reference objects or controlled settings for size estimate.
 
 Together with the effectiveness of YOLOv11 and our transfer learning methodology, this combination of several food understanding tasks marks a substantial advancement in the accessibility and usefulness of nutritional analysis for daily use. 
