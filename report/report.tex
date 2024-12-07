@@ -149,7 +149,7 @@ In our case we unfreeze all the model layers, decrease the learning rate and tra
 For allergen detection Allergen30~\cite{mishra2022allergen30} dataset was used and for calories computation FooDD~\cite{yvk7qk3820} dataset.
 After training, the model weights are saved in \texttt{.pt} file, that can be evaluated by any language and library supporting \texttt{Torch}~\cite{torchlibrary} library.
 
-\subsection{Intermediate Results}
+\subsection{Results}
 
 For now only results for allergen detection was performed (because FooDD dataset is bigger and we ran out of free Colab GPU time).
 For the second submission result evaluation will be added as well as training graphs and training details.
@@ -179,20 +179,42 @@ JuPyter notebook that was used for training as well as the trained model will be
 \end{figure}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.5\textwidth]{4471_fine_tuning.png}
-    \caption{Result of Fine Tuning}
-    \label{fig:yourlabel}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
     \includegraphics[width=0.5\textwidth]{4471_transfer_confusion.png}
     \caption{Confusion matrix of Transfer Learning}
     \label{fig:yourlabel}
 \end{figure}
 \begin{figure}[htbp]
     \centering
+    \includegraphics[width=0.5\textwidth]{4471_fine_tuning.png}
+    \caption{Result of Fine Tuning}
+    \label{fig:yourlabel}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
     \includegraphics[width=0.5\textwidth]{4471_finetuning_confusion.png}
     \caption{Confusion matrix of Fine Tuning}
+    \label{fig:yourlabel}
+\end{figure}
+As we said before, we firstly use transfer learning technique to use the pre-trained the YOLO model weights then we try to further boost accuracy using fine tuning approach. 
+We then tested the model to evaluate its performance after we apply transfer learning as well as after fine tuning, analyzing various metrics such as precision, recall, and mean Average Precision (mAP). 
+The training results showed a generally positive trend, with decreasing loss values indicating effective learning. 
+From the above graphs, although the performance didn't improved a lot, there are an increase around 0.02 which indicates the model has a small improvement (but actually precision decrease 0.015). 
+Overall, according to the the confusion matrix, the trained model perform quite well that most of the deep color (number of crossover between prediction and true label) are in the diagonal lines (predict correctly). 
+So we are satisified on the result and move further on the calories and allerge classification.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{result.png}
+    \caption{Result of the model}
+    \label{fig:yourlabel}
+\end{figure}
+\subsection{Calories and Allerge dection}
+After the food prediction model is implemented, we try to dectect the calories and allerge of the food which is the main focus of this project. 
+We use Allergen30 and FooDD dataset to train our model for those two function. 
+And now it is able to dect food and estimate the calories and if it is Allergies.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{result2.png}
+    \caption{Result of the model}
     \label{fig:yourlabel}
 \end{figure}
 
