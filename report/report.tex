@@ -252,14 +252,12 @@ The final result screenshot is included in this report~\ref{advanced-client-resu
 
 \section{Conclusion}
 
-This project has successfully shown the application of YOLOv11 in detecting and estimating calories and allergens in food item images. 
-We have integrated transfer learning with the Allergen30 dataset to develop a model that identifies food items. 
-The model now can estimate the calories and allergen of food to those health conscious users for reference.
-
-Based on our experience, we found out that using fine tuning after transfer learning with pre-trained models can bring huge improvement in accuracy and efficiency in case of complex tasks such as food recognition and allergen detection. 
-The shift from traditional image classification to an object detection framework has proven useful by enabling the identification of multiple instances of food items in a single image. 
-This will not only simplify the requirements of the dataset but also increase the model's generalization to diverse presentations of food.
-
+This project has effectively demonstrated the use of YOLOv11 for food item image detection and calorie and allergen estimation.
+In this project, we have combined transfer learning with Allergen30 dataset to build a model that classifies food items and predicts the calories and allergen of a food image.
+Some formal results showing that we have good precision and recall means it can be used in real world.
+Based on what we learned we discovered that fine-tuning after transfer learning with pre-trained models improves both accuracy and speed significantly on complex tasks, in our case food recognition and allergen detection,
+Moving from a traditional image classification to an object detection framework is beneficial as it allows to identify multiple food items within a single image.
+This will not only simplify the requirements of the dataset but also improve the generalization of the model towards dietary patterns in diverse food presentations.
 Looking ahead, several avenues of further research and development emerge. 
 Future work may expand the dataset to a wider range of food items and allergens, which would improve the generalization capability of the model. 
 Further refinement in the process of calorie estimation by more accurate portion size analysis would improve the accuracy of nutritional outputs. 
