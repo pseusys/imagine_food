@@ -120,13 +120,7 @@ While addressing significant shortcomings in current systems, our work expands o
 
 \subsection{Data}
 
-Required: Describe the data you are working with for your project. 
-What type of data is it? 
-Where did it come from? 
-How much data are you working with? 
-Did you have to do any preprocessing, filtering, or other special treatment to use this data in your project?
-
-
+We use Allergen30 as our dataset. The Allergen30 dataset was created for training an accurate detection model to prevent allergic reactions, and it contains 30 accessible common food items associated with a variety of food intolerance. The intolerance include lactose, histamine, gluten, salicylate, caffeine, and ovomucoid sensitivities. The dataset comprises images labeled with corresponding food items like alcohol, alcohol glass, almond, avocado, blackberry, blueberry, bread, bread loaf, capsicum, cheese, chocolate, cooked meat, dates, egg, eggplant, ice cream, milk, milk-based beverage, mushroom, non-milk-based beverage, pasta, pineapple, pistachio, pizza, raw meat, roti, spinach, strawberry, tomato, and whole egg boiled. Each image underwent pre-processing to achieve uniformed formatting compatible with the detection models. Pre-processing steps include auto-orientation of pixel data (with EXIF-orientation stripping), resizing images to 416x416 pixels (stretch), and data augmentation. Data augmentation was employed to expand the dataset and this was achieved by creating 3 versions of each unique image with random shearing of -15° to +15° in both the horizontal and vertical planes. These augmentations were combined with transformations of the bounding boxes, with one out of four 90-degree rotations or changes in orientation applied equally likely(0 for no rotation, clockwise, counterclockwise, upside-down). The integration of preprocessing and augmentation helps in creating a more varied dataset which can be used to train AI models for allergen detection.
 
 %-------------------------------------------------------------------------
 \section{Methods and Experiments}
