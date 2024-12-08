@@ -198,6 +198,10 @@ It is especially clear in case of pineapples, we believe the problem stems from 
 
 From the above graphs, although the performance didn't improved a lot, there are an increase around $0.02$ which indicates the model has a small improvement (but actually precision decrease $0.015$). 
 Overall, according to the the confusion matrix, the trained model perform quite well that most of the deep color (number of crossover between prediction and true label) are in the diagonal lines (predict correctly). 
+The allergen detection task showed good results, with a precision of 0.707 and recall of 0.602 by the model.
+These metrics show that the model is effective in correctly identifying allergenic foods while keeping a reasonable rate of false negatives.
+The accuracy at a threshold of 50\% was 0.662, while accuracy between 50\% and 95\% was 0.472.
+These results indicate that our model can differentiate between different food items, thus providing necessary alerts for users with food allergies.
 So we are mostly satisified on the result~\ref{complete-detection-result}.
 
 \begin{figure}[htbp]
