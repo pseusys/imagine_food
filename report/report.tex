@@ -123,7 +123,7 @@ While addressing significant shortcomings in current systems, our work expands o
 We use Allergen30 as our dataset. The Allergen30 dataset was created for training an accurate detection model to prevent allergic reactions, and it contains 30 accessible common food items associated with a variety of food intolerance. 
 The intolerance include lactose, histamine, gluten, salicylate, caffeine, and ovomucoid sensitivities. The dataset comprises images labeled with corresponding food items like alcohol, alcohol glass, almond, avocado, blackberry, blueberry, bread, bread loaf, capsicum, cheese, chocolate, cooked meat, dates, egg, eggplant, ice cream, milk, milk-based beverage, mushroom, non-milk-based beverage, pasta, pineapple, pistachio, pizza, raw meat, roti, spinach, strawberry, tomato, and whole egg boiled. 
 Each image underwent pre-processing to achieve uniformed formatting compatible with the detection models. 
-Pre-processing steps include auto-orientation of pixel data (with EXIF-orientation stripping), resizing images to 416x416 pixels (stretch), and data augmentation. Data augmentation was employed to expand the dataset and this was achieved by creating 3 versions of each unique image with random shearing of -15° to +15° in both the horizontal and vertical planes. 
+Pre-processing steps include auto-orientation of pixel data (with EXIF-orientation stripping), resizing images to $416 \times 416$ pixels (stretch), and data augmentation. Data augmentation was employed to expand the dataset and this was achieved by creating 3 versions of each unique image with random shearing of -15° to +15° in both the horizontal and vertical planes. 
 These augmentations were combined with transformations of the bounding boxes, with one out of four 90-degree rotations or changes in orientation applied equally likely(0 for no rotation, clockwise, counterclockwise, upside-down). 
 The integration of preprocessing and augmentation helps in creating a more varied dataset which can be used to train AI models for allergen detection.
 
@@ -172,25 +172,21 @@ JuPyter notebook that was used for training as well as the trained model will be
     \centering
     \includegraphics[width=0.5\textwidth]{4471_transfer_learning.png}
     \caption{Result of Transfer Learning}
-    \label{fig:yourlabel}
 \end{figure}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\textwidth]{4471_transfer_confusion.png}
     \caption{Confusion matrix of Transfer Learning}
-    \label{fig:yourlabel}
 \end{figure}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\textwidth]{4471_fine_tuning.png}
     \caption{Result of Fine Tuning}
-    \label{fig:yourlabel}
 \end{figure}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\textwidth]{4471_finetuning_confusion.png}
     \caption{Confusion matrix of Fine Tuning}
-    \label{fig:yourlabel}
 \end{figure}
 As we said before, we firstly use transfer learning technique to use the pre-trained the YOLO model weights then we try to further boost accuracy using fine tuning approach. 
 We then tested the model to evaluate its performance after we apply transfer learning as well as after fine tuning, analyzing various metrics such as precision, recall, and mean Average Precision (mAP). 
@@ -202,7 +198,6 @@ So we are satisified on the result and move further on the calories and allerge 
     \centering
     \includegraphics[width=0.5\textwidth]{result.png}
     \caption{Result of the model}
-    \label{fig:yourlabel}
 \end{figure}
 \subsection{Calories and Allerge dection}
 After the food prediction model is implemented, we try to dectect the calories and allerge of the food which is the main focus of this project. 
@@ -212,7 +207,6 @@ And now it is able to dect food and estimate the calories and if it is Allergies
     \centering
     \includegraphics[width=0.5\textwidth]{result2.png}
     \caption{Result of the model}
-    \label{fig:yourlabel}
 \end{figure}
 
 %-------------------------------------------------------------------------
@@ -221,7 +215,7 @@ This project has successfully shown the application of YOLOv11 in detecting and 
 We have integrated transfer learning with the Allergen30 and FooDD datasets to develop a robust model that identifies food items and gives crucial nutritional information. 
 The results indicate that our model achieves commendable precision and recall, suggesting its effectiveness in real-world applications.
 
-Based on our experience, we found out that using transfer learning with pre-trained models can bring huge improvement in accuracy and efficiency in case of complex tasks such as food recognition and allergen detection. 
+Based on our experience, we found out that using fine tuning after transfer learning with pre-trained models can bring huge improvement in accuracy and efficiency in case of complex tasks such as food recognition and allergen detection. 
 The shift from traditional image classification to an object detection framework has proven useful by enabling the identification of multiple instances of food items in a single image. 
 This will not only simplify the requirements of the dataset but also increase the model's generalization to diverse presentations of food.
 
