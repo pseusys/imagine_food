@@ -224,7 +224,7 @@ As it was mentioned above, only for some of the food types calories amount estim
 These food types are: avocado, dates, pineapple, capsicum, eggplant, spinach, tomato, milk, chocolate, pizza, egg, roti.
 For now, the calories estimation algorithm includes just searching for the predicted food type in the database, loaded alongside with the model.
 
-In order to provide our algorithm user with an insight on how could the model be used for a single image detection, a small client application was written in Python.
+In order to provide our algorithm user with an insight on how could the model be used for a single image detection, a small client application using PyTorch library~\cite{torchlibrary} only was written in Python.
 It accepts one single image, searches for food on it and returns a tuple containing found food object type, number of calories, confidence and predicted position in the image.
 A screenshot~\ref{simple-client-result} shows the simple client output.
 
