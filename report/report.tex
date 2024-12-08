@@ -91,7 +91,6 @@ It would be very appreciated if you could give us some advice on our current pro
 
 \subsection{Related Work}
 
-Required: Discuss published work that relates to your project. How is your approach similar or different from others?
 The field of food image recognition has undergone considerable advancement in the last ten years, shifting from conventional computer vision techniques to advanced deep learning methodologies. 
 Early systems from MADiMa (Multimedia Assisted Dietary Management)~\cite{madima2017} significantly advanced the field of food recognition through the application of traditional computer vision methodologies and the utilization of hand-crafted features (need cita). 
 Although these approaches represented a considerable innovation during their era, they were inherently limited by their dependence on manual feature engineering. 
@@ -120,14 +119,19 @@ While addressing significant shortcomings in current systems, our work expands o
 
 \subsection{Data}
 
-We use Allergen30 as our dataset. The Allergen30 dataset was created for training an accurate detection model to prevent allergic reactions, and it contains 30 accessible common food items associated with a variety of food intolerance. 
-The intolerance include lactose, histamine, gluten, salicylate, caffeine, and ovomucoid sensitivities. The dataset comprises images labeled with corresponding food items like alcohol, alcohol glass, almond, avocado, blackberry, blueberry, bread, bread loaf, capsicum, cheese, chocolate, cooked meat, dates, egg, eggplant, ice cream, milk, milk-based beverage, mushroom, non-milk-based beverage, pasta, pineapple, pistachio, pizza, raw meat, roti, spinach, strawberry, tomato, and whole egg boiled. 
+We use Allergen30~\cite{mishra2022allergen30} as our dataset.
+The Allergen30 dataset was created for training an accurate detection model to prevent allergic reactions, and it contains 30 accessible common food items associated with a variety of food intolerance. 
+The intolerance include lactose, histamine, gluten, salicylate, caffeine, and ovomucoid sensitivities.
+The dataset comprises images labeled with corresponding food items like alcohol, alcohol glass, almond, avocado, blackberry, blueberry, bread, bread loaf, capsicum, cheese, chocolate, cooked meat, dates, egg, eggplant, ice cream, milk, milk-based beverage, mushroom, non-milk-based beverage, pasta, pineapple, pistachio, pizza, raw meat, roti, spinach, strawberry, tomato and whole egg boiled. 
 Each image underwent pre-processing to achieve uniformed formatting compatible with the detection models. 
 Pre-processing steps include auto-orientation of pixel data (with EXIF-orientation stripping), resizing images to $416 \times 416$ pixels (stretch), and data augmentation. Data augmentation was employed to expand the dataset and this was achieved by creating 3 versions of each unique image with random shearing of -15° to +15° in both the horizontal and vertical planes. 
-These augmentations were combined with transformations of the bounding boxes, with one out of four 90-degree rotations or changes in orientation applied equally likely(0 for no rotation, clockwise, counterclockwise, upside-down). 
+These augmentations were combined with transformations of the bounding boxes, with one out of four 90-degree rotations or changes in orientation applied equally likely (0 for no rotation, clockwise, counterclockwise, upside-down). 
 The integration of preprocessing and augmentation helps in creating a more varied dataset which can be used to train AI models for allergen detection.
 
-%-------------------------------------------------------------------------
+Unfortunately, datasets attributing different types of food to the numbers of calories they can contain, were not found.
+Instead, it was decided to use a database lookup; a suitable \texttt{.csv} database was found on Kaggle~\cite{kaggle-calories}.
+Of course, however, the items contained in this dataset and in the image dataset are not identical, so for some of the detected food categories the amaount of calories can not be estimated.
+Collecting a specialized dataset for detecting calories in different food items might become a goal for the future research.
 
 \subsection{Technical approach}
 
@@ -143,13 +147,10 @@ That technique includes downloading model weights after training on some general
 After the model is trained, we try to further boost accuracy using fine tuning approach (again, also described by ultralytics~\cite{ultralytics2024finetuning}).
 In our case we unfreeze all the model layers, decrease the learning rate and train the model again.
 
-For allergen detection Allergen30~\cite{mishra2022allergen30} dataset was used and for calories computation FooDD~\cite{yvk7qk3820} dataset.
-After training, the model weights are saved in \texttt{.pt} file, that can be evaluated by any language and library supporting \texttt{Torch}~\cite{torchlibrary} library.
-
 \subsection{Results}
 
-For now only results for allergen detection was performed (because FooDD dataset is bigger and we ran out of free Colab GPU time).
-For the second submission result evaluation will be added as well as training graphs and training details.
+As we said before, we firstly use transfer learning technique to use the pre-trained the YOLO model weights then we try to further boost accuracy using fine tuning approach.
+The neural network is being used for allergen (and consequently, food type) detection only.
 The training results are for now provided in form of a table~\ref{results-table}.
 
 \begin{table}[!h]
@@ -166,53 +167,79 @@ The training results are for now provided in form of a table~\ref{results-table}
     \end{center}
 \end{table}
 
-JuPyter notebook that was used for training as well as the trained model will be submitted alongside with this report.
+We then tested the model to evaluate its performance after we apply transfer learning~\ref{transfer-learning-result} as well as after fine tuning~\ref{fine-tuning-result}, analyzing various metrics such as precision, recall, and mean Average Precision (mAP). 
+The training results showed a generally positive trend, with decreasing loss values indicating effective learning. 
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\textwidth]{4471_transfer_learning.png}
-    \caption{Result of Transfer Learning}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.5\textwidth]{4471_transfer_confusion.png}
-    \caption{Confusion matrix of Transfer Learning}
+    \caption{Result of Transfer Learning}\label{transfer-learning-result}
 \end{figure}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\textwidth]{4471_fine_tuning.png}
-    \caption{Result of Fine Tuning}
+    \caption{Result of Fine Tuning}\label{fine-tuning-result}
+\end{figure}
+
+We also have studied confusion matrix after both transfer learning~\ref{transfer-learning-confusion} and fine tuning steps~\ref{fine-tuning-confusion}, analyzing what types of food are most commonly mistaken by the model.
+Just as it was expected, most confusion was coming from treating food as some background objects.
+It is especially clear in case of pineapples, we believe the problem stems from their unusual for food texture and green grass-like part.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{4471_transfer_confusion.png}
+    \caption{Confusion matrix of Transfer Learning}\label{transfer-learning-confusion}
 \end{figure}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\textwidth]{4471_finetuning_confusion.png}
-    \caption{Confusion matrix of Fine Tuning}
-\end{figure}
-As we said before, we firstly use transfer learning technique to use the pre-trained the YOLO model weights then we try to further boost accuracy using fine tuning approach. 
-We then tested the model to evaluate its performance after we apply transfer learning as well as after fine tuning, analyzing various metrics such as precision, recall, and mean Average Precision (mAP). 
-The training results showed a generally positive trend, with decreasing loss values indicating effective learning. 
-From the above graphs, although the performance didn't improved a lot, there are an increase around 0.02 which indicates the model has a small improvement (but actually precision decrease 0.015). 
-Overall, according to the the confusion matrix, the trained model perform quite well that most of the deep color (number of crossover between prediction and true label) are in the diagonal lines (predict correctly). 
-So we are satisified on the result and move further on the calories and allerge classification.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.5\textwidth]{result.png}
-    \caption{Result of the model}
-\end{figure}
-\subsection{Calories and Allerge dection}
-After the food prediction model is implemented, we try to dectect the calories and allerge of the food which is the main focus of this project. 
-We use Allergen30 and FooDD dataset to train our model for those two function. 
-And now it is able to dect food and estimate the calories and if it is Allergies.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.5\textwidth]{result2.png}
-    \caption{Result of the model}
+    \caption{Confusion matrix of Fine Tuning}\label{fine-tuning-confusion}
 \end{figure}
 
-%-------------------------------------------------------------------------
+From the above graphs, although the performance didn't improved a lot, there are an increase around $0.02$ which indicates the model has a small improvement (but actually precision decrease $0.015$). 
+Overall, according to the the confusion matrix, the trained model perform quite well that most of the deep color (number of crossover between prediction and true label) are in the diagonal lines (predict correctly). 
+So we are mostly satisified on the result~\ref{complete-detection-result}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{detection-result.png}
+    \caption{Result of the model}\label{complete-detection-result}
+\end{figure}
+
+As it was mentioned above, only for some of the food types calories amount estimation is available.
+These food types are: avocado, dates, pineapple, capsicum, eggplant, spinach, tomato, milk, chocolate, pizza, egg, roti.
+For now, the calories estimation algorithm includes just searching for the predicted food type in the database, loaded alongside with the model.
+
+In order to provide our algorithm user with an insight on how could the model be used for a single image detection, a small client application was written in Python.
+It accepts one single image, searches for food on it and returns a tuple containing found food object type, number of calories, confidence and predicted position in the image.
+A screenshot~\ref{simple-client-result} shows the simple client output.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{simple-detector.png}
+    \caption{Result of the model}\label{simple-client-result}
+\end{figure}
+
+JuPyter notebook that was used for training as well as the trained model will be submitted alongside with this report.
+After training, model weights were published as \texttt{.pt} and \texttt{.onnx} files to the project repository~\cite{projectRepo} (together with the current report version).
+
+Unfortunately, the results of our work up to this point are not easy to visualize for a non-professional.
+Running a JuPyter notebook includes lots of initial setup, library version management, etc.
+In order to make our project results more accessible for teh general public (as they are meant for everyday use), we have deployed an advanced client application: a website capable of evaluating the model as well as performing calories lookup.
+The website is based on React framework and \texttt{onnxruntime-web} library.
+Many of the machine-learning-related functions are not implemented in JavaScript, so we had to re-implement things such as tensor filtering or non-max suppression from the scratch.
+The final result screenshot is included in this report~\ref{advanced-client-result} and the website can be found statically deployed on the project GitHub1~\cite{projectWebsite}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{advanced-detector.png}
+    \caption{Result of the model}\label{advanced-client-result}
+\end{figure}
+
 \section{Conclusion}
+
 This project has successfully shown the application of YOLOv11 in detecting and estimating calories and allergens in food item images. 
-We have integrated transfer learning with the Allergen30 and FooDD datasets to develop a robust model that identifies food items and gives crucial nutritional information. 
+We have integrated transfer learning with the Allergen30 dataset to develop a robust model that identifies food items and gives crucial nutritional information. 
 The results indicate that our model achieves commendable precision and recall, suggesting its effectiveness in real-world applications.
 
 Based on our experience, we found out that using fine tuning after transfer learning with pre-trained models can bring huge improvement in accuracy and efficiency in case of complex tasks such as food recognition and allergen detection. 
@@ -227,8 +254,8 @@ Another promising direction is the integration of user feedback mechanisms to im
 Conclusion-This work enriches, within the framework of deep learning advances, the ever-growing scientific field of nutritional analysis; hence, the practical tool is targeted for health-oriented customers and individuals with food allergies. 
 In refining this work, our aim has been to further empower users for better, actionable insights into their food choices, therefore cultivating healthy eating habits among people in today's fast world.
 
-%-------------------------------------------------------------------------
 \section{Supplementary Material}
+
 Required: not counted toward your 6-8 page limit and submitted as a separate file. Your supplementary material might include:
 Source code (if your project proposed an algorithm, or code that is relevant and important for your project.).
 Cool videos, interactive visualizations, demos, etc.
