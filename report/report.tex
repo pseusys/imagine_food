@@ -137,7 +137,7 @@ Collecting a specialized dataset for detecting calories in different food items 
 
 Our first idea about approaching this problem was using one of the simple well-known image classification models (ResNet~\cite{he2015deepresiduallearningimage} or even more accurate XCeption~\cite{chollet2017xceptiondeeplearningdepthwise}).
 However, since they only attribute one label to one image, we later decided using object detection model instead (also well-known YOLO in particular).
-That would allow us training our model on simpler datasets, containing only basic products instead of including all different meal combinations.
+That would allow us training our model on simpler datasets, containing only basic products instead of including all different food combinations.
 For instance, consider a meal consisting of a bowl of rice and a pork chop.
 In case of using image classification models, either we would have to include ``bowl of rice with pork chop'' into our dataset, or that image will be classified not precisely (probably as rice if there is more rice in the image).
 On the contrary, if we use object detection model, we would be able to detect ``rice'' and ``pork chop'' separately and then proceed combining detection results.
